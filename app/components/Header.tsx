@@ -7,8 +7,18 @@ const Header = () => {
       <div className="px-4 xl:px-0 max-w-7xl mx-auto flex sticky top-0 h-full justify-between items-center">
         <p className=" font-semibold shrink-0 flex ">Car Management App</p>
         <div className="flex justify-evenly w-2/5 font-medium">
-          <Link href="/">Home</Link>
-          <Link href="/create">Create</Link>
+          <Link
+            href="/"
+            className="font-semibold px-4 py-2 rounded hover:bg-gray-100"
+          >
+            Products
+          </Link>
+          <Link
+            href="/create"
+            className="font-semibold px-4 py-2 rounded hover:bg-gray-100"
+          >
+            Create
+          </Link>
         </div>
         <div className="flex w-2/5 items-end justify-end">
           <SignedOut>{/* <SignInButton /> */}</SignedOut>
