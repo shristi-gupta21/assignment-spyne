@@ -6,7 +6,7 @@ const Header = () => {
     <header className="header border-b">
       <div className=" max-w-7xl mx-auto flex  sticky top-0 py-2 justify-between">
         <p className=" font-semibold shrink-0 flex ">Car Management App</p>
-        <div className="flex justify-evenly w-2/5">
+        <div className="flex justify-evenly w-2/5 font-medium">
           <Link href="/">Home</Link>
           <Link href="/create">Create</Link>
         </div>

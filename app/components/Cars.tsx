@@ -13,6 +13,19 @@ const CarList: React.FC = () => {
     fetchCars();
   }, []);
 
+  const handleDelete = async (id: string) => {
+    const response = await fetch("/api/delete", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
+    });
+    if (response.ok) {
+      setCars((prevCars) => prevCars.filter((car) => car.id !== id));
+      console.log("Car deleted successfully");
+    } else {
+      console.error("Error deleting car");
+    }
+  };
   return (
     <div>
       <h2>Car Listings</h2>
@@ -30,6 +43,7 @@ const CarList: React.FC = () => {
               />
             ))}
           </div>
+          <button onClick={() => handleDelete(car.id)}>Delete</button>
         </div>
       ))}
     </div>
