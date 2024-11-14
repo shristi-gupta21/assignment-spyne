@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, Fuel, Gauge, Users } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface Car {
   id: string;
@@ -13,11 +14,10 @@ interface Car {
 }
 
 export default function CarDetailsPage({ id }: { id: string }) {
-  const [activeTab, setActiveTab] = useState("overview");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [car, setCar] = useState<Car | null>(null);
   const [error, setError] = useState<string | null>(null);
-
+  const router = useRouter();
   useEffect(() => {
     if (id) {
       fetchCarDetails();
@@ -45,7 +45,19 @@ export default function CarDetailsPage({ id }: { id: string }) {
       }
     }
   };
-
+  const handleDelete = async (id: string) => {
+    const response = await fetch("/api/delete", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
+    });
+    if (response.ok) {
+      router.push("/");
+      console.log("Car deleted successfully");
+    } else {
+      console.error("Error deleting car");
+    }
+  };
   const nextImage = () => {
     if (car) {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % car.images.length);
@@ -64,7 +76,26 @@ export default function CarDetailsPage({ id }: { id: string }) {
   }
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-4 uppercase">{car && car.title}</h1>
+      <div className="flex justify-between">
+        <h1 className="text-4xl font-bold mb-4 uppercase">
+          {car && car.title}
+        </h1>
+        <div className="flex gap-4">
+          <button
+            type="button"
+            onClick={() => handleDelete(id)}
+            className="px-4 py-2  h-fit border border-transparent text-sm font-semibold rounded-md text-black border-black hover:bg-black/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+          >
+            Delete
+          </button>
+          <button
+            type="button"
+            className="px-4 h-fit py-2 border border-transparent text-sm font-semibold rounded-md text-white bg-black hover:bg-black/70 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+          >
+            Edit
+          </button>
+        </div>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 my-8 ">
         <div className="relative aspect-video rounded-lg overflow-hidden">

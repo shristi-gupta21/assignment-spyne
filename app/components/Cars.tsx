@@ -31,19 +31,7 @@ const CarList: React.FC = () => {
 
     setFilteredCars(results);
   };
-  const handleDelete = async (id: string) => {
-    const response = await fetch("/api/delete", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id }),
-    });
-    if (response.ok) {
-      setCars((prevCars) => prevCars.filter((car) => car.id !== id));
-      console.log("Car deleted successfully");
-    } else {
-      console.error("Error deleting car");
-    }
-  };
+
   return (
     <div>
       <div className="container mx-auto px-4 py-8">
@@ -55,7 +43,7 @@ const CarList: React.FC = () => {
             placeholder="Search cars..."
             value={query}
             onChange={(e) => handleSearch(e.target.value)}
-            className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
           />
           <Search
             className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
@@ -81,7 +69,7 @@ const CarList: React.FC = () => {
                   <div className="p-6">
                     <h2 className="text-xl font-semibold mb-2">{car.title}</h2>
                     <Link href={`details/${car.id}`}>
-                      <button className="w-full mt-2 bg-black text-white font-semibold py-2 px-4 rounded-lg hover:bg-black/50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                      <button className="w-full mt-2 bg-black text-white font-semibold py-2 px-4 rounded-lg hover:bg-black/50 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2">
                         View Details
                       </button>
                     </Link>
@@ -104,7 +92,7 @@ const CarList: React.FC = () => {
                   <div className="p-6">
                     <h2 className="text-xl font-semibold mb-2">{car.title}</h2>
                     <Link href={`details/${car.id}`}>
-                      <button className="w-full bg-black text-white font-semibold py-2 px-4 rounded-lg hover:bg-black/50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                      <button className="w-full bg-black text-white font-semibold py-2 px-4 rounded-lg hover:bg-black/50 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2">
                         View Details
                       </button>
                     </Link>
