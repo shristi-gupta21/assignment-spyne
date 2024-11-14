@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface Car {
   id: string;
@@ -75,7 +76,7 @@ export default function CarDetailsPage({ id }: { id: string }) {
     return <p className="text-center mt-4 font-semibold text-xl">Loading...</p>;
   }
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 w-full">
       <div className="flex justify-between">
         <h1 className="text-4xl font-bold mb-4 uppercase">
           {car && car.title}
@@ -88,16 +89,18 @@ export default function CarDetailsPage({ id }: { id: string }) {
           >
             Delete
           </button>
-          <button
-            type="button"
-            className="px-4 h-fit py-2 border border-transparent text-sm font-semibold rounded-md text-white bg-black hover:bg-black/70 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
-          >
-            Edit
-          </button>
+          <Link href={`/edit/${id}`}>
+            <button
+              type="button"
+              className="px-4 h-fit py-2 border border-transparent text-sm font-semibold rounded-md text-white bg-black hover:bg-black/70 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+            >
+              Edit
+            </button>
+          </Link>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 my-8 ">
+      <div className="grid grid-cols-1 gap-8 my-8 w-full">
         <div className="relative aspect-video rounded-lg overflow-hidden">
           {car && (
             <Image
@@ -136,8 +139,8 @@ export default function CarDetailsPage({ id }: { id: string }) {
           </div>
         </div>
 
-        <div className="space-y-6">
-          <div className="bg-white rounded-lg shadow p-6">
+        <div className="w-full  flex gap-4">
+          <div className="bg-white w-full rounded-lg shadow p-6">
             <h2 className="text-2xl font-semibold mb-4">Features</h2>
             <div className="flex flex-wrap gap-2">
               {car &&
@@ -151,7 +154,7 @@ export default function CarDetailsPage({ id }: { id: string }) {
                 ))}
             </div>
           </div>
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="bg-white w-full rounded-lg shadow p-6">
             <h2 className="text-2xl font-semibold mb-4">Overview</h2>
             <div className="mt-4">
               <p>{car && car.description}</p>

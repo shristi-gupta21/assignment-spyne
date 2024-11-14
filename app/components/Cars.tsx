@@ -31,7 +31,7 @@ const CarList: React.FC = () => {
 
     setFilteredCars(results);
   };
-
+  console.log(cars);
   return (
     <div>
       <div className="container mx-auto px-4 py-8">
