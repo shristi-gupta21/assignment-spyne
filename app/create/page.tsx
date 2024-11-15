@@ -4,9 +4,11 @@ import Header from "../components/Header";
 
 const page = () => {
   return (
-    <div className="max-w-7xl mx-auto">
+    <div>
       <Header />
-      <CarForm />
+      <div className="max-w-7xl mx-auto">
+        <CarForm />
+      </div>
     </div>
   );
 };

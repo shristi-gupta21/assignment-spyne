@@ -11,7 +11,9 @@ export default async function Page({
   return (
     <div>
       <Header />
-      <EditForm id={id} />
+      <div className="max-w-7xl mx-auto">
+        <EditForm id={id} />
+      </div>
     </div>
   );
 }

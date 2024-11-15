@@ -11,7 +11,9 @@ export default async function Page({
   return (
     <div>
       <Header />
-      <CarDetailsPage id={id} />
+      <div className="max-w-7xl mx-auto">
+        <CarDetailsPage id={id} />
+      </div>
     </div>
   );
 }
