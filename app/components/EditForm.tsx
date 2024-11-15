@@ -48,20 +48,30 @@ export default function EditForm({ id }: { id: string }) {
       }
     }
   };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setSuccessMessage(null);
+
+    // Merge existing images with new images
+    const totalImages = (car?.images?.length || 0) + newImages.length;
+    if (totalImages > 10) {
+      setError("You can upload a maximum of 10 images.");
+      return;
+    }
+
+    const updatedImages = [
+      ...(car?.images || []), // Keep existing images
+      ...newImages.map((image) => URL.createObjectURL(image)), // Add new images
+    ];
 
     const data = {
       id: car?.id || "",
       title: car?.title || "",
       description: car?.description || "",
       tags: car?.tags || [],
-      images:
-        newImages.length > 0
-          ? newImages.map((image) => URL.createObjectURL(image))
-          : car?.images || [], // Use existing images if no new images are added
+      images: updatedImages, // Use merged images
     };
 
     try {
@@ -94,6 +104,13 @@ export default function EditForm({ id }: { id: string }) {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
+    const totalImages = (car?.images?.length || 0) + files.length;
+
+    if (totalImages > 10) {
+      setError("You can upload a maximum of 10 images.");
+      return;
+    }
+
     setNewImages(files);
   };
 
@@ -111,8 +128,7 @@ export default function EditForm({ id }: { id: string }) {
   return (
     <div className="max-w-2xl mx-auto p-4">
       <h1 className="text-3xl font-bold mb-6">Edit Car</h1>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
+
       <form onSubmit={handleSubmit}>
         <div className="space-y-6">
           <div>
@@ -171,7 +187,6 @@ export default function EditForm({ id }: { id: string }) {
               placeholder="e.g. electric, SUV, automatic, etc"
             />
           </div>
-
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
               Existing Images
@@ -181,13 +196,13 @@ export default function EditForm({ id }: { id: string }) {
                 <div key={index} className="relative w-40 h-28">
                   <img
                     src={image}
-                    alt={`${car.title}${index + 1}`}
+                    alt={`Existing image ${index + 1}`}
                     className="w-40 h-28 object-cover rounded"
                   />
                   <button
                     type="button"
                     onClick={() => removeImage(image)}
-                    className="absolute -top-3.5 -right-1  text-xl  text-black flex shrink-0 "
+                    className="absolute -top-3.5 -right-1 text-xl text-black flex shrink-0"
                   >
                     &times;
                   </button>
@@ -219,14 +234,13 @@ export default function EditForm({ id }: { id: string }) {
                       onChange={handleImageChange}
                     />
                   </label>
-                  <p className="pl-1">or drag and drop</p>
                 </div>
-                <p className="text-xs text-gray-500">
-                  PNG, JPG, GIF up to 10MB
-                </p>
+                <p className="text-xs text-gray-500">PNG, JPG, GIF</p>
               </div>
             </div>
           </div>
+          {error && <p style={{ color: "red" }}>{error}</p>}
+          {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
 
           <div className="flex justify-end gap-4">
             <Link href={"/"}>

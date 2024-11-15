@@ -1,4 +1,5 @@
 import CarDetailsPage from "@/app/components/CarDetailsPage";
+import Header from "@/app/components/Header";
 
 export default async function Page({
   params,
@@ -9,6 +10,7 @@ export default async function Page({
 
   return (
     <div>
+      <Header />
       <CarDetailsPage id={id} />
     </div>
   );

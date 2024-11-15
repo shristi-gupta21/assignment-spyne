@@ -8,12 +8,21 @@ const CarList: React.FC = () => {
   const [cars, setCars] = useState<any[]>([]);
   const [filteredCars, setFilteredCars] = useState<any[]>([]); // Array for filtered search results
   const [query, setQuery] = useState("");
+  const [loading, setLoading] = useState(true); // Loading state
 
   useEffect(() => {
     async function fetchCars() {
-      const res = await fetch("/api/cars");
-      const data = await res.json();
-      setCars(data);
+      setLoading(true); // Start loading
+      try {
+        const res = await fetch("/api/cars");
+        const data = await res.json();
+        setCars(data);
+        setFilteredCars(data); // Initialize filtered cars with fetched data
+      } catch (error) {
+        console.error("Failed to fetch cars:", error);
+      } finally {
+        setLoading(false); // End loading
+      }
     }
     fetchCars();
   }, []);
@@ -51,55 +60,63 @@ const CarList: React.FC = () => {
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredCars.length === 0 && !query
-            ? cars.map((car) => (
-                <div
-                  key={car.id}
-                  className="bg-white rounded-lg shadow-md overflow-hidden"
-                >
-                  <div className="relative h-48">
-                    <Image
-                      src={car.images[0]}
-                      alt={car.title}
-                      layout="fill"
-                      objectFit="cover"
-                    />
+        {loading ? (
+          <div className="text-center font-semibold">Loading cars...</div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredCars.length === 0 && !query
+              ? cars.map((car) => (
+                  <div
+                    key={car.id}
+                    className="bg-white rounded-lg shadow-md overflow-hidden"
+                  >
+                    <div className="relative h-48">
+                      <Image
+                        src={car.images[0]}
+                        alt={car.title}
+                        layout="fill"
+                        objectFit="cover"
+                      />
+                    </div>
+                    <div className="p-6">
+                      <h2 className="text-xl font-semibold mb-2">
+                        {car.title}
+                      </h2>
+                      <Link href={`details/${car.id}`}>
+                        <button className="w-full mt-2 bg-black text-white font-semibold py-2 px-4 rounded-lg hover:bg-black/50 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2">
+                          View Details
+                        </button>
+                      </Link>
+                    </div>
                   </div>
-                  <div className="p-6">
-                    <h2 className="text-xl font-semibold mb-2">{car.title}</h2>
-                    <Link href={`details/${car.id}`}>
-                      <button className="w-full mt-2 bg-black text-white font-semibold py-2 px-4 rounded-lg hover:bg-black/50 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2">
-                        View Details
-                      </button>
-                    </Link>
+                ))
+              : filteredCars.map((car) => (
+                  <div
+                    key={car.id}
+                    className="bg-white rounded-lg shadow-md overflow-hidden"
+                  >
+                    <div className="relative h-48">
+                      <Image
+                        src={car.images[0]}
+                        alt={car.title}
+                        layout="fill"
+                        objectFit="cover"
+                      />
+                    </div>
+                    <div className="p-6">
+                      <h2 className="text-xl font-semibold mb-2">
+                        {car.title}
+                      </h2>
+                      <Link href={`details/${car.id}`}>
+                        <button className="w-full bg-black text-white font-semibold py-2 px-4 rounded-lg hover:bg-black/50 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2">
+                          View Details
+                        </button>
+                      </Link>
+                    </div>
                   </div>
-                </div>
-              ))
-            : filteredCars.map((car) => (
-                <div
-                  key={car.id}
-                  className="bg-white rounded-lg shadow-md overflow-hidden"
-                >
-                  <div className="relative h-48">
-                    <Image
-                      src={car.images[0]}
-                      alt={car.title}
-                      layout="fill"
-                      objectFit="cover"
-                    />
-                  </div>
-                  <div className="p-6">
-                    <h2 className="text-xl font-semibold mb-2">{car.title}</h2>
-                    <Link href={`details/${car.id}`}>
-                      <button className="w-full bg-black text-white font-semibold py-2 px-4 rounded-lg hover:bg-black/50 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2">
-                        View Details
-                      </button>
-                    </Link>
-                  </div>
-                </div>
-              ))}
-        </div>
+                ))}
+          </div>
+        )}
       </div>
     </div>
   );

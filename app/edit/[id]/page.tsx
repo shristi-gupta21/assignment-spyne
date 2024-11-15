@@ -1,4 +1,5 @@
 import EditForm from "@/app/components/EditForm";
+import Header from "@/app/components/Header";
 
 export default async function Page({
   params,
@@ -9,6 +10,7 @@ export default async function Page({
 
   return (
     <div>
+      <Header />
       <EditForm id={id} />
     </div>
   );

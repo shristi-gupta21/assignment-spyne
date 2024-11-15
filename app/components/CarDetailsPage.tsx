@@ -100,42 +100,45 @@ export default function CarDetailsPage({ id }: { id: string }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-8 my-8 w-full">
-        <div className="relative aspect-video rounded-lg overflow-hidden">
-          {car && (
-            <Image
-              src={car.images[currentImageIndex]}
-              alt={`${car.title} - Image ${currentImageIndex + 1}`}
-              layout="fill"
-              objectFit="contain"
-            />
-          )}
-          <div className="absolute inset-0 flex items-center justify-between p-4">
-            <button
-              onClick={prevImage}
-              className="p-2 rounded-full bg-white/80 text-gray-800 hover:bg-white"
-              aria-label="Previous image"
-            >
-              <ChevronLeft className="h-6 w-6" />
-            </button>
-            <button
-              onClick={nextImage}
-              className="p-2 rounded-full bg-white/80 text-gray-800 hover:bg-white"
-              aria-label="Next image"
-            >
-              <ChevronRight className="h-6 w-6" />
-            </button>
-          </div>
-          <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
-            {car &&
-              car.images.map((_, index) => (
-                <div
-                  key={index}
-                  className={`h-2 w-2 rounded-full ${
-                    index === currentImageIndex ? "bg-white" : "bg-white/50"
-                  }`}
-                />
-              ))}
+      <div className="flex flex-col gap-8 my-8 w-full">
+        <div className=" flex items-center justify-center">
+          <div className="relative w-fit h-96 aspect-video rounded-lg overflow-hidden">
+            {car && (
+              <Image
+                className="h-1/2"
+                src={car.images[currentImageIndex]}
+                alt={`${car.title} - Image ${currentImageIndex + 1}`}
+                layout="fill"
+                objectFit="contain"
+              />
+            )}
+            <div className="absolute inset-0 flex items-center justify-between p-4">
+              <button
+                onClick={prevImage}
+                className="p-2 rounded-full bg-white/80 text-gray-800 hover:bg-white"
+                aria-label="Previous image"
+              >
+                <ChevronLeft className="h-6 w-6" />
+              </button>
+              <button
+                onClick={nextImage}
+                className="p-2 rounded-full bg-white/80 text-gray-800 hover:bg-white"
+                aria-label="Next image"
+              >
+                <ChevronRight className="h-6 w-6" />
+              </button>
+            </div>
+            <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+              {car &&
+                car.images.map((_, index) => (
+                  <div
+                    key={index}
+                    className={`h-2 w-2 rounded-full ${
+                      index === currentImageIndex ? "bg-white" : "bg-white/50"
+                    }`}
+                  />
+                ))}
+            </div>
           </div>
         </div>
 
@@ -147,7 +150,7 @@ export default function CarDetailsPage({ id }: { id: string }) {
                 car.tags.map((tag, index) => (
                   <span
                     key={index}
-                    className="px-3 py-1 bg-gray-200 text-gray-800 rounded-full text-sm"
+                    className="px-3 py-1 capitalize bg-gray-200 text-gray-800 rounded-full text-sm"
                   >
                     {tag}
                   </span>
